@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import com.concretepage.dao.IArticleDAO;
 import com.concretepage.entity.Article;
 @Service
+// Service class Implementation
 public class ArticleService implements IArticleService {
 	@Autowired
 	private IArticleDAO articleDAO;

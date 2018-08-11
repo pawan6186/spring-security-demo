@@ -14,8 +14,8 @@ import com.concretepage.entity.Article;
 
 public class RestClientUtil {
     private HttpHeaders getHeaders() {
-    	String credential="mukesh:m123";
-    	//String credential="tarun:t123";
+    	String credential="pawan:m123";
+    	//String credential="gupta:t123";
     	String encodedCredential = new String(Base64.encodeBase64(credential.getBytes()));
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);

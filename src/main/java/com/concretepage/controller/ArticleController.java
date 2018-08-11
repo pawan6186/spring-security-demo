@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -18,21 +19,38 @@ import org.springframework.web.util.UriComponentsBuilder;
 import com.concretepage.entity.Article;
 import com.concretepage.service.IArticleService;
 
+/**
+ * Annotation for mapping HTTP requests onto specific handler methods.
+ *
+ * <p>Specifically, {@code @PutMapping} is a <em>composed annotation</em> that
+ * acts as a shortcut for {@code @RequestMapping(method = RequestMethod.PUT)}.
+ *
+ * GetMapping
+ * PostMapping
+ * DeleteMapping
+ * PatchMapping
+ * RequestMapping
+ * 
+ * Controller class that has methods for CREATE, READ, UPDATE and DELETE (CRUD) operation
+ */
 @Controller
 @RequestMapping("user")
 public class ArticleController {
 	@Autowired
 	private IArticleService articleService;
+	// Get article object by passing article ID
 	@GetMapping("article/{id}")
 	public ResponseEntity<Article> getArticleById(@PathVariable("id") Integer id) {
 		Article article = articleService.getArticleById(id);
 		return new ResponseEntity<Article>(article, HttpStatus.OK);
 	}
+	// Get all article
 	@GetMapping("articles")
 	public ResponseEntity<List<Article>> getAllArticles() {
 		List<Article> list = articleService.getAllArticles();
 		return new ResponseEntity<List<Article>>(list, HttpStatus.OK);
 	}
+	// Create new article.	
 	@PostMapping("article")
 	public ResponseEntity<Void> addArticle(@RequestBody Article article, UriComponentsBuilder builder) {
         boolean flag = articleService.addArticle(article);
@@ -43,11 +61,13 @@ public class ArticleController {
         headers.setLocation(builder.path("/article/{id}").buildAndExpand(article.getArticleId()).toUri());
         return new ResponseEntity<Void>(headers, HttpStatus.CREATED);
 	}
+	// Update existing article 
 	@PutMapping("article")
 	public ResponseEntity<Article> updateArticle(@RequestBody Article article) {
 		articleService.updateArticle(article);
 		return new ResponseEntity<Article>(article, HttpStatus.OK);
 	}
+	// Delete article based on articleId
 	@DeleteMapping("article/{id}")
 	public ResponseEntity<Void> deleteArticle(@PathVariable("id") Integer id) {
 		articleService.deleteArticle(id);
